@@ -1,0 +1,26 @@
+version: '1'
+
+services:
+  database:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=cases123
+      - MYSQL_DATABASE=case_studies
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+  web:
+    build: ./webapp
+    ports:
+      - "80:80"
+    volumes:
+      - ./webapp:/app
+    environment:
+      - FLASK_ENV=development
+      - MYSQL_HOST=database
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=cases123
+      - MYSQL_DB=case_studies
